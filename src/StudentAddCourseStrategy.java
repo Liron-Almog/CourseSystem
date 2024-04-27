@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class StudentAddCourseStrategy implements AddCourseStrategy {
@@ -5,42 +6,54 @@ public class StudentAddCourseStrategy implements AddCourseStrategy {
     @Override
     public void addCourse(String currentUserName) {
 
-        while (true) {
-            try {
-                ManagerCourse.getInstance().printAllCourses();
-                Scanner scanner = new Scanner(System.in);
+        try{
+            while (true) {
+                try {
+                    Scanner scanner = new Scanner(System.in);
+                    int courseNumber = -1;
 
-                System.out.print("Enter the number of the course you want to add: ");
-                int courseNumber = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
+                    ManagerCourse.getInstance().printAllCourses();
+                    System.out.print("Enter the number of the course you want to add: ");
+                    courseNumber = scanner.nextInt();
+                    scanner.nextLine();
+                    Course chosenCourse = ManagerCourse.getInstance().getCourseByNumber(courseNumber);
 
-                // Retrieve the chosen course
-                Course chosenCourse = ManagerCourse.getInstance().getCourseByNumber(courseNumber);
-                // Check if the chosen course is valid
-                if (chosenCourse != null) {
-                    if(!ManagerCourse.getInstance().hasSpaceForMoreStudents(courseNumber)){
-                        System.out.println("The course is currently full. Do you want to receive a message when there is space available? (yes/no)");
-                        String response = scanner.nextLine().trim().toLowerCase();
-
-                        if (response.equals("yes")) {
-                            // Logic to subscribe the user for notifications when there is space available
-                            // You can implement this logic based on your application's requirements
-                            // For example, you might have a method to add a user to a notification list for the course
-                            // ManagerCourse.getInstance().addNotificationSubscriber(user, courseNumber);
-                        }
-                        break;
+                    // Check if the chosen course is valid
+                    if (chosenCourse != null) {
+                        handleCourseAvailabilityResponse(courseNumber, currentUserName, chosenCourse);
+                        return;
+                    } else {
+                        System.out.println("Invalid course number. Course not added.");
                     }
-                    // Call the addCourse method of ManagerCourse to add the chosen course
-                    ManagerCourse.getInstance().getCourseByNumber(courseNumber).incrementParticipantCounter();
-                    ((Student) UserManagerSingleton.getInstance().getUserByUserName(currentUserName)).addCourse(chosenCourse);
-                    System.out.println("Course added.");
-                    break;
-                } else {
-                    System.out.println("Invalid course number. Course not added.");
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
                 }
-            } catch (IllegalStateException e) {
-                System.out.println(e.getMessage()); // Print the exception message
             }
+
+        }
+        catch (IllegalStateException e) {
+            System.out.println(e.getMessage()); // Print the exception message
+        }
+
+
+    }
+
+
+    private void handleCourseAvailabilityResponse(int courseNumber, String currentUserName,Course chosenCourse) {
+        Scanner scanner = new Scanner(System.in); // Creating a Scanner object to read input
+        if (!ManagerCourse.getInstance().hasSpaceForMoreStudents(courseNumber)) {
+            System.out.println("The course is currently full. Do you want to receive a message when there is space available? (yes/no)");
+            String response = scanner.nextLine().trim().toLowerCase();
+            if (response.equals("yes")) {
+                // Add the user as an observer to get a message
+                CourseAvailabilityNotifier.getInstance().addObserver(((Student) UserManagerSingleton.getInstance().getUserByUserName(currentUserName)));
+            }
+        } else {
+            // If there is space in the course, add the user to the course and increment the participant counter
+            ManagerCourse.getInstance().getCourseByNumber(courseNumber).incrementParticipantCounter();
+            ((Student) UserManagerSingleton.getInstance().getUserByUserName(currentUserName)).addCourse(chosenCourse);
+            System.out.println("Course added.");
         }
     }
+
 }

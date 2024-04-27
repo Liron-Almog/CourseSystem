@@ -10,11 +10,10 @@ public class SeniorAddCourseStrategy implements AddCourseStrategy{
 
         do {
             System.out.println("Please enter course details:");
-
-
             int numberOfParticipants = 0;
             boolean successInput = false;
             String id = null, name = null;
+
             while (!successInput) {
                 try {
                     System.out.print("Course ID(String): ");
@@ -27,7 +26,7 @@ public class SeniorAddCourseStrategy implements AddCourseStrategy{
                     numberOfParticipants = Integer.parseInt(scanner.nextLine());
                     successInput = true;
 
-                    // Prompt user to select a course type
+
                     CourseTypes courseType = null;
                     boolean validCourseType = false;
                     while (!validCourseType) {

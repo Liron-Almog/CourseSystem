@@ -1,4 +1,4 @@
-class Option {
+public class Option {
     private String name;
     private Command command;
 

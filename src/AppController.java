@@ -35,8 +35,10 @@ public class AppController {
 
         Menu menu = new Menu("Hello " + username + " - Courses system");
         menu.add("Add course", new AddItemCommand(username));
-        if(!UserManagerSingleton.getInstance().isSenior(username))
-            menu.add( "delete course", new DeleteCommand(username));
+        if(!UserManagerSingleton.getInstance().isSenior(username)) {
+            menu.add("delete course", new DeleteCommand(username));
+            menu.add("Inbox", new InboxCommand(username));
+        }
         menu.add( "Logout", new LogoutCommand(username));
         menu.activate();
 
