@@ -4,6 +4,6 @@ public class Practitioner extends Senior {
     }
 
     public Practitioner() {
-
+        super();
     }
 }

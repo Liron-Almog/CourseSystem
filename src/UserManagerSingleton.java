@@ -11,7 +11,8 @@
             registeredUsers = new ArrayList<Entity>();
             loggedInUsers = new HashSet<>();
             totalUsers = 0;
-            registeredUsers.add(EntityFactory.create(Senior.class, "moshe", "123"));
+            registeredUsers.add(EntityFactory.create(Practitioner.class, "moshe", "123"));
+            registeredUsers.add(EntityFactory.create(Lecturer.class, "dor", "123"));
         }
 
         public static synchronized UserManagerSingleton getInstance() {

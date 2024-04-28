@@ -10,6 +10,7 @@ public class EntityFactory {
             constructorMap.put(Student.class, Student.class.getConstructor(String.class, String.class));
             constructorMap.put(Senior.class, Senior.class.getConstructor(String.class, String.class));
             constructorMap.put(Practitioner.class, Practitioner.class.getConstructor(String.class, String.class));
+            constructorMap.put(Lecturer.class, Lecturer.class.getConstructor(String.class, String.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
