@@ -15,7 +15,7 @@
             registeredUsers.add(EntityFactory.create(Lecturer.class, "dor", "123"));
         }
 
-        public static synchronized UserManagerSingleton getInstance() {
+        public static UserManagerSingleton getInstance() {
             if (instance == null) {
                 instance = new UserManagerSingleton();
             }

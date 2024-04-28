@@ -9,7 +9,7 @@ public class AppController {
     }
 
     // Static method to get the singleton instance
-    public static synchronized AppController getInstance() {
+    public static AppController getInstance() {
         if (instance == null) {
             instance = new AppController();
         }
