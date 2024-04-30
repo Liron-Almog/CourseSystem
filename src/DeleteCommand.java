@@ -39,8 +39,6 @@ public class DeleteCommand implements Command {
             System.out.println("Invalid input. Please enter a valid number.");
             return false; // Do not return to the previous menu
         } catch (RuntimeException e) {
-            // Handling runtime exception
-            System.out.println(e.getMessage());
             return false; // Do not return to the previous menu
         }
 

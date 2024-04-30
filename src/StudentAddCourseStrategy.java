@@ -47,6 +47,7 @@ public class StudentAddCourseStrategy implements AddCourseStrategy {
             if (response.equals("yes")) {
                 // Add the user as an observer to get a message
                 CourseAvailabilityNotifier.getInstance().addObserver(((Student) UserManagerSingleton.getInstance().getUserByUserName(currentUserName)));
+                ((Student) UserManagerSingleton.getInstance().getUserByUserName(currentUserName)).addCourseToListen(chosenCourse.getId());
             }
         } else {
             // If there is space in the course, add the user to the course and increment the participant counter

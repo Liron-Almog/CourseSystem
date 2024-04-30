@@ -1,3 +1,3 @@
-public interface AddCourseStrategy {
+            public interface AddCourseStrategy {
     void addCourse(String currentUserName);
 }

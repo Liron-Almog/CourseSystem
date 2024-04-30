@@ -2,8 +2,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 
-public class Student extends Entity {
+public class Student extends Entity implements Observer{
 
+    private List<String> coursesIdTolisten;
     private List<Course> myCourses;
 
     public List<String> getMessages() {
@@ -20,6 +21,7 @@ public class Student extends Entity {
         addCourseStrategy = new StudentAddCourseStrategy();
         this.myCourses = new ArrayList<>();
         this.messages = new ArrayList<>();
+        this.coursesIdTolisten = new ArrayList<>();
     }
 
     public Student() {
@@ -64,9 +66,13 @@ public class Student extends Entity {
 
     public void update(Course course) {
         // Add a message indicating an empty place in the specified course
-        messages.add("There is an empty place in course " + course.getName() + " id:" + course.getId() + ". Please choose before it's filled.");
-        // Remove this object (observer) from observing course availability changes
-        CourseAvailabilityNotifier.getInstance().removeObserver(this);
+        if(coursesIdTolisten.contains(course.getId())){
+            messages.add("There is an empty place in course " + course.getName() + " id:" + course.getId() + ". Please choose before it's filled.");
+            // Remove this object (observer) from observing course availability changes
+            coursesIdTolisten.remove(course.getId());
+            CourseAvailabilityNotifier.getInstance().removeObserver(this);
+        }
+
     }
 
     public List<String> getMessagesAndDeleteThem() {
@@ -76,6 +82,9 @@ public class Student extends Entity {
         messages.clear();
         // Return the copy of messages
         return messagesCopy;
+    }
+    public void addCourseToListen(String id) {
+        coursesIdTolisten.add(id);
     }
 
 }

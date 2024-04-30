@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class InboxCommand implements Command {
+    public class InboxCommand implements Command {
 
     private String username;
 
